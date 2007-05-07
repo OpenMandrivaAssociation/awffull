@@ -1,11 +1,11 @@
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
 Version:	3.7.4
-Release:	%mkrel 0.beta3.1
+Release:	%mkrel 1
 License:	GPL
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
-Source0:	http://www.stedee.id.au/files/%{name}-%{version}-beta3.tar.gz
+Source0:	http://www.stedee.id.au/files/%{name}-%{version}.tar.gz
 Source1:	http://flags.blogpotato.de/zip/world.zip
 Source2:	http://flags.blogpotato.de/zip/special.zip
 Patch0:		awffull-mdv_conf.diff
@@ -107,7 +107,7 @@ and not specifically limited just to web server logs.
 
 %prep
 
-%setup -q -n %{name}-%{version}-beta3
+%setup -q -n %{name}-%{version}
 %patch0 -p0
 
 unzip -d flags -f %{SOURCE1}
