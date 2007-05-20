@@ -1,6 +1,6 @@
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
-Version:	3.7.4
+Version:	3.7.5
 Release:	%mkrel 1
 License:	GPL
 Group:		Monitoring
@@ -128,7 +128,7 @@ install -d %{buildroot}%{_localstatedir}/%{name}
 install -d %{buildroot}%{_sysconfdir}
 
 install -m0644 sample.conf %{buildroot}%{_sysconfdir}/awffull.conf
-install -m0755 awffull_history_regen.pl %{buildroot}%{_bindir}/awffull_history_regen
+install -m0755 contrib/awffull_history_regen.pl %{buildroot}%{_bindir}/awffull_history_regen
 
 install -d %{buildroot}/var/www/icons/flags
 install -m0644 flags/*.png %{buildroot}/var/www/icons/flags/
