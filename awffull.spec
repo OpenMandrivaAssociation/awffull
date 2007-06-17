@@ -1,14 +1,15 @@
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
-Version:	3.7.5
-Release:	%mkrel 1
+Version:	3.8.1
+Release:	%mkrel 0.beta1.1
 License:	GPL
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
-Source0:	http://www.stedee.id.au/files/%{name}-%{version}.tar.gz
+Source0:	http://www.stedee.id.au/files/%{name}-%{version}-beta1.tar.gz
 Source1:	http://flags.blogpotato.de/zip/world.zip
 Source2:	http://flags.blogpotato.de/zip/special.zip
 Patch0:		awffull-mdv_conf.diff
+Patch1:		awffull-3.8.1-beta1-swedish.diff
 Requires:	apache
 Requires:	geoip
 # webapp macros and scriptlets
@@ -107,8 +108,9 @@ and not specifically limited just to web server logs.
 
 %prep
 
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{version}-beta1
 %patch0 -p0
+%patch1 -p0
 
 unzip -d flags -f %{SOURCE1}
 unzip -d flags -f %{SOURCE2}
@@ -167,6 +169,11 @@ cat > %{buildroot}%{_sysconfdir}/cron.daily/%{name} <<'EOF'
 if [ -z "`grep "^HostName" %{_sysconfdir}/awffull.conf`" ]; then
     HOSTNAME="-n `hostname --fqdn`"
 fi
+
+# change the generated html to swedish:
+#export LC_ALL=sv_SE.UTF-8
+#export LANG=sv_SE.UTF-8
+#export LANGUAGE=sv_SE.UTF-8:sv
 
 %{_bindir}/awffull -c %{_sysconfdir}/awffull.conf $HOSTNAME
 EOF
