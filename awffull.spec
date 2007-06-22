@@ -1,13 +1,14 @@
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
 Version:	3.8.1
-Release:	%mkrel 0.beta1.1
+Release:	%mkrel 0.beta1.2
 License:	GPL
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
 Source0:	http://www.stedee.id.au/files/%{name}-%{version}-beta1.tar.gz
 Source1:	http://flags.blogpotato.de/zip/world.zip
 Source2:	http://flags.blogpotato.de/zip/special.zip
+Source3:	awffull.cron.daily
 Patch0:		awffull-mdv_conf.diff
 Patch1:		awffull-3.8.1-beta1-swedish.diff
 Requires:	apache
@@ -109,15 +110,18 @@ and not specifically limited just to web server logs.
 %prep
 
 %setup -q -n %{name}-%{version}-beta1
-%patch0 -p0
+%patch0 -p1
 %patch1 -p0
 
 unzip -d flags -f %{SOURCE1}
 unzip -d flags -f %{SOURCE2}
 
+cp %{SOURCE3} .
+
 %build
 
-%configure2_5x
+%configure2_5x \
+    --with-etcdir=%{_sysconfdir}/%{name}
 
 %make
 
@@ -127,9 +131,9 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 install -d %{buildroot}%{_localstatedir}/%{name}
-install -d %{buildroot}%{_sysconfdir}
+install -d %{buildroot}%{_sysconfdir}/%{name}
 
-install -m0644 sample.conf %{buildroot}%{_sysconfdir}/awffull.conf
+install -m0644 sample.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
 install -m0755 contrib/awffull_history_regen.pl %{buildroot}%{_bindir}/awffull_history_regen
 
 install -d %{buildroot}/var/www/icons/flags
@@ -163,31 +167,35 @@ EOF
 		
 # cron task
 install -d %{buildroot}%{_sysconfdir}/cron.daily
-cat > %{buildroot}%{_sysconfdir}/cron.daily/%{name} <<'EOF'
-#!/bin/sh
-
-if [ -z "`grep "^HostName" %{_sysconfdir}/awffull.conf`" ]; then
-    HOSTNAME="-n `hostname --fqdn`"
-fi
-
-# change the generated html to swedish:
-#export LC_ALL=sv_SE.UTF-8
-#export LANG=sv_SE.UTF-8
-#export LANGUAGE=sv_SE.UTF-8:sv
-
-%{_bindir}/awffull -c %{_sysconfdir}/awffull.conf $HOSTNAME
-EOF
-chmod 755 %{buildroot}%{_sysconfdir}/cron.daily/%{name}
+install -m0755 awffull.cron.daily %{buildroot}%{_sysconfdir}/cron.daily/%{name}
 
 cat > README.Mandriva << EOF
 
-Currently on Mandriva you need to set three environment variables in order to
+The default configuration file has been moved from /etc/awffull.conf to
+/etc/awffull/awffull.conf
+
+Currently on Mandriva you need to set two environment variables in order to
 get the UTF-8 output in the language you want, so for Swedish you should do
 like so:
 
-LC_ALL=sv_SE.UTF-8 LANG=sv_SE.UTF-8 LANGUAGE=sv_SE.UTF-8:sv \\
+LANG=sv_SE.UTF-8 LANGUAGE=sv_SE.UTF-8:sv \\
 awffull --output=/path/to/the/output/directory -n \$HOSTNAME \\
 --use_geoip /path/to/the/apache/log/access_log
+
+If you have many virtual hosts you can copy the default /etc/awffull/awffull.conf
+to /etc/awffull/virtual_host_name.conf and edit that file to point to the correct
+logfile, output directory and such. The new /etc/cron.daily/awffull script will
+look for the following settings in the /etc/awffull/virtual_host_name.conf file
+and automatically generate the output in the desired language:
+
+#AWFFULL_LANG=
+#AWFFULL_LANGUAGE=
+
+So if you for example want the output in Swedish change this to:
+
+#AWFFULL_LANG=sv_SE.UTF-8
+#AWFFULL_LANGUAGE=sv_SE.UTF-8:sv
+
 EOF
 
 %post
@@ -202,7 +210,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc COPYING ChangeLog PERFORMANCE_TIPS.txt README* TODO country-codes.txt
-%config(noreplace) %{_sysconfdir}/awffull.conf
+%config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
 %config(noreplace) %{_webappconfdir}/%{name}.conf
 %config(noreplace) %{_sysconfdir}/cron.daily/%{name}
 %{_bindir}/awffull
