@@ -1,7 +1,7 @@
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
 Version:	3.8.1
-Release:	%mkrel 0.beta1.3
+Release:	%mkrel 0.beta1.4
 License:	GPL
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
@@ -11,6 +11,7 @@ Source2:	http://flags.blogpotato.de/zip/special.zip
 Source3:	awffull.cron.daily
 Patch0:		awffull-mdv_conf.diff
 Patch1:		awffull-3.8.1-beta1-swedish.diff
+Patch2:		datetime_and_xferlog.v3.8.1-beta1.patch
 Requires:	apache
 Requires:	geoip
 # webapp macros and scriptlets
@@ -112,6 +113,7 @@ and not specifically limited just to web server logs.
 %setup -q -n %{name}-%{version}-beta1
 %patch0 -p1
 %patch1 -p0
+%patch2 -p0
 
 unzip -d flags -f %{SOURCE1}
 unzip -d flags -f %{SOURCE2}
