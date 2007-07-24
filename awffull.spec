@@ -1,7 +1,7 @@
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
 Version:	3.8.1
-Release:	%mkrel 0.beta1.4
+Release:	%mkrel 0.beta1.5
 License:	GPL
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
@@ -14,6 +14,7 @@ Patch1:		awffull-3.8.1-beta1-swedish.diff
 Patch2:		datetime_and_xferlog.v3.8.1-beta1.patch
 Requires:	apache
 Requires:	geoip
+Requires:	fonts-ttf-bitstream-vera
 # webapp macros and scriptlets
 Requires(post): rpm-helper >= 0.16
 Requires(postun): rpm-helper >= 0.16
@@ -124,7 +125,9 @@ cp %{SOURCE3} .
 %serverbuild
 
 %configure2_5x \
-    --with-etcdir=%{_sysconfdir}/%{name}
+    --with-etcdir=%{_sysconfdir}/%{name} \
+    --with-font-default=%{_datadir}/fonts/TTF/VeraBd.ttf \
+    --with-font-label=%{_datadir}/fonts/TTF/Vera.ttf
 
 %make
 
