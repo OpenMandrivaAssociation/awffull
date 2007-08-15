@@ -1,17 +1,15 @@
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
 Version:	3.8.1
-Release:	%mkrel 0.beta1.5
+Release:	%mkrel 0.beta2.1
 License:	GPL
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
-Source0:	http://www.stedee.id.au/files/%{name}-%{version}-beta1.tar.gz
+Source0:	http://www.stedee.id.au/files/%{name}-%{version}-beta2.tar.gz
 Source1:	http://flags.blogpotato.de/zip/world.zip
 Source2:	http://flags.blogpotato.de/zip/special.zip
 Source3:	awffull.cron.daily
 Patch0:		awffull-mdv_conf.diff
-Patch1:		awffull-3.8.1-beta1-swedish.diff
-Patch2:		datetime_and_xferlog.v3.8.1-beta1.patch
 Requires:	apache
 Requires:	geoip
 Requires:	fonts-ttf-bitstream-vera
@@ -111,10 +109,8 @@ and not specifically limited just to web server logs.
 
 %prep
 
-%setup -q -n %{name}-%{version}-beta1
+%setup -q -n %{name}-%{version}-beta2
 %patch0 -p1
-%patch1 -p0
-%patch2 -p0
 
 unzip -d flags -f %{SOURCE1}
 unzip -d flags -f %{SOURCE2}
@@ -140,6 +136,7 @@ install -d %{buildroot}%{_localstatedir}/%{name}
 install -d %{buildroot}%{_sysconfdir}/%{name}
 
 install -m0644 sample.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
+install -m0644 sample.css %{buildroot}%{_localstatedir}/%{name}/%{name}.css
 install -m0755 contrib/awffull_history_regen.pl %{buildroot}%{_bindir}/awffull_history_regen
 
 install -d %{buildroot}/var/www/icons/flags
@@ -215,13 +212,15 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc COPYING ChangeLog PERFORMANCE_TIPS.txt README* TODO country-codes.txt
-%config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
-%config(noreplace) %{_webappconfdir}/%{name}.conf
-%config(noreplace) %{_sysconfdir}/cron.daily/%{name}
-%{_bindir}/awffull
-%{_bindir}/awffull_history_regen
-%{_mandir}/man1/*
-%{_localstatedir}/%{name}
-/var/www/icons/flags/*
-%{_datadir}/locale/*/LC_MESSAGES/%{name}.mo
+%doc COPYING ChangeLog PERFORMANCE_TIPS.txt README* TODO country-codes.txt sample.minimal.conf sample.css
+%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
+%attr(0644,root,root) %config(noreplace) %{_webappconfdir}/%{name}.conf
+%attr(0755,root,root) %config(noreplace) %{_sysconfdir}/cron.daily/%{name}
+%attr(0755,root,root) %{_bindir}/awffull
+%attr(0755,root,root) %{_bindir}/awffull_history_regen
+%attr(0755,root,root) %dir %{_localstatedir}/%{name}
+%attr(0644,root,root) %config(noreplace) %{_localstatedir}/%{name}/%{name}.css
+%attr(0755,root,root) %dir /var/www/icons/flags
+%attr(0644,root,root) /var/www/icons/flags/*
+%attr(0644,root,root) %{_datadir}/locale/*/LC_MESSAGES/%{name}.mo
+%attr(0644,root,root) %{_mandir}/man1/*
