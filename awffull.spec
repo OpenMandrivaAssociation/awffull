@@ -1,7 +1,11 @@
+%if %mdkver < 200800
+%define _webappconfdir /etc/httpd/conf/webapps.d
+%endif
+
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
 Version:	3.8.1
-Release:	%mkrel 0.beta3.1
+Release:	%mkrel 0.beta3.2
 License:	GPL
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
@@ -9,10 +13,11 @@ Source0:	http://www.stedee.id.au/files/%{name}-%{version}-beta3.tar.gz
 Source1:	http://flags.blogpotato.de/zip/world.zip
 Source2:	http://flags.blogpotato.de/zip/special.zip
 Source3:	awffull.cron.daily
+Source4:	Vera.ttf
+Source5:	VeraBd.ttf
 Patch0:		awffull-mdv_conf.diff
 Requires:	apache
 Requires:	geoip
-Requires:	fonts-ttf-bitstream-vera
 # webapp macros and scriptlets
 Requires(post): rpm-helper >= 0.16
 Requires(postun): rpm-helper >= 0.16
@@ -116,14 +121,16 @@ unzip -d flags -f %{SOURCE1}
 unzip -d flags -f %{SOURCE2}
 
 cp %{SOURCE3} .
+cp %{SOURCE4} .
+cp %{SOURCE5} .
 
 %build
 %serverbuild
 
 %configure2_5x \
     --with-etcdir=%{_sysconfdir}/%{name} \
-    --with-font-default=%{_datadir}/fonts/TTF/VeraBd.ttf \
-    --with-font-label=%{_datadir}/fonts/TTF/Vera.ttf
+    --with-font-default=%{_datadir}/%{name}/VeraBd.ttf \
+    --with-font-label=%{_datadir}/%{name}/Vera.ttf
 
 %make
 
@@ -134,10 +141,13 @@ rm -rf %{buildroot}
 
 install -d %{buildroot}%{_localstatedir}/%{name}
 install -d %{buildroot}%{_sysconfdir}/%{name}
+install -d %{buildroot}%{_datadir}/%{name}
 
 install -m0644 sample.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
 install -m0644 sample.css %{buildroot}%{_localstatedir}/%{name}/%{name}.css
 install -m0755 contrib/awffull_history_regen.pl %{buildroot}%{_bindir}/awffull_history_regen
+install -m0644 Vera.ttf %{buildroot}%{_datadir}/%{name}/
+install -m0644 VeraBd.ttf %{buildroot}%{_datadir}/%{name}/
 
 install -d %{buildroot}/var/www/icons/flags
 install -m0644 flags/*.png %{buildroot}/var/www/icons/flags/
@@ -223,4 +233,5 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %dir /var/www/icons/flags
 %attr(0644,root,root) /var/www/icons/flags/*
 %attr(0644,root,root) %{_datadir}/locale/*/LC_MESSAGES/%{name}.mo
+%attr(0644,root,root) %{_datadir}/%{name}/*.ttf
 %attr(0644,root,root) %{_mandir}/man1/*
