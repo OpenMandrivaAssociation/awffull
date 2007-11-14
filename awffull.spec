@@ -4,7 +4,7 @@
 
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
-Version:	3.8.1
+Version:	3.8.2
 Release:	%mkrel 1
 License:	GPL
 Group:		Monitoring
