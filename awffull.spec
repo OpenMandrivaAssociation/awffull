@@ -103,6 +103,7 @@ Obsoletes:	webalizer-spanish
 Obsoletes:	webalizer-swedish
 Obsoletes:	webalizer-turkish
 Obsoletes:	webalizer-ukrainian
+BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 Webalizer is a great weblog analysis program but hasn't been going anywhere in
