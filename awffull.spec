@@ -140,12 +140,12 @@ rm -rf %{buildroot}
 
 %makeinstall_std
 
-install -d %{buildroot}%{_localstatedir}/%{name}
+install -d %{buildroot}%{_localstatedir}/lib/%{name}
 install -d %{buildroot}%{_sysconfdir}/%{name}
 install -d %{buildroot}%{_datadir}/%{name}
 
 install -m0644 sample.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
-install -m0644 sample.css %{buildroot}%{_localstatedir}/%{name}/%{name}.css
+install -m0644 sample.css %{buildroot}%{_localstatedir}/lib/%{name}/%{name}.css
 install -m0755 contrib/awffull_history_regen.pl %{buildroot}%{_bindir}/awffull_history_regen
 install -m0644 Vera.ttf %{buildroot}%{_datadir}/%{name}/
 install -m0644 VeraBd.ttf %{buildroot}%{_datadir}/%{name}/
@@ -159,9 +159,9 @@ install -d %{buildroot}%{_webappconfdir}
 cat > %{buildroot}%{_webappconfdir}/%{name}.conf <<EOF
 # %{name} configuration
 
-Alias /%{name} %{_localstatedir}/%{name}
+Alias /%{name} %{_localstatedir}/lib/%{name}
 
-<Directory %{_localstatedir}/%{name}>
+<Directory %{_localstatedir}/lib/%{name}>
     Order Deny,Allow
     Deny from All
     Allow from 127.0.0.1
@@ -229,8 +229,8 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %config(noreplace) %{_sysconfdir}/cron.daily/%{name}
 %attr(0755,root,root) %{_bindir}/awffull
 %attr(0755,root,root) %{_bindir}/awffull_history_regen
-%attr(0755,root,root) %dir %{_localstatedir}/%{name}
-%attr(0644,root,root) %config(noreplace) %{_localstatedir}/%{name}/%{name}.css
+%attr(0755,root,root) %dir %{_localstatedir}/lib/%{name}
+%attr(0644,root,root) %config(noreplace) %{_localstatedir}/lib/%{name}/%{name}.css
 %attr(0755,root,root) %dir /var/www/icons/flags
 %attr(0644,root,root) /var/www/icons/flags/*
 %attr(0644,root,root) %{_datadir}/locale/*/LC_MESSAGES/%{name}.mo
