@@ -5,7 +5,7 @@
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
 Version:	3.8.2
-Release:	%mkrel 1
+Release:	%mkrel 3
 License:	GPL
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
