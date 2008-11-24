@@ -4,12 +4,12 @@
 
 Summary:	AWFFull - A Webalizer Fork, Full o' Features!
 Name:		awffull
-Version:	3.9.1
+Version:	3.10.1
 Release:	%mkrel 1
-License:	GPL
+License:	GPLv3+
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
-# md5sum: 11eafc9fc6c2b1353084ca2f27461ccd
+# md5sum: 80acf755b354c49d78a5b9bb580196f2
 Source0:	http://www.stedee.id.au/files/%{name}-%{version}.tar.gz
 Source1:	http://flags.blogpotato.de/zip/large/world.zip
 Source2:	http://flags.blogpotato.de/zip/large/special.zip
