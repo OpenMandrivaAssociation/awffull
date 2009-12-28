@@ -17,6 +17,7 @@ Source3:	awffull.cron.daily
 Source4:	Vera.ttf
 Source5:	VeraBd.ttf
 Patch0:		awffull-mdv_conf.diff
+Patch1:		awffull-3.10.2-upstreambug309617.diff
 Requires:	apache
 Requires:	geoip
 # webapp macros and scriptlets
@@ -117,6 +118,7 @@ and not specifically limited just to web server logs.
 
 %setup -q -n %{name}-%{version}
 %patch0 -p1
+%patch1 -p0
 
 unzip -d flags -o -f %{SOURCE1}
 unzip -d flags -o -f %{SOURCE2}
