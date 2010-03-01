@@ -1,11 +1,7 @@
-%if %mdkver < 200800
-%define _webappconfdir /etc/httpd/conf/webapps.d
-%endif
-
-Summary:	AWFFull - A Webalizer Fork, Full o' Features!
+Summary:	A Webalizer Fork, Full o' Features!
 Name:		awffull
 Version:	3.10.2
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	GPLv3+
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
@@ -164,15 +160,13 @@ cat > %{buildroot}%{_webappconfdir}/%{name}.conf <<EOF
 Alias /%{name} %{_localstatedir}/lib/%{name}
 
 <Directory %{_localstatedir}/lib/%{name}>
-    Order Deny,Allow
-    Deny from All
-    Allow from 127.0.0.1
-    ErrorDocument 403 "Access denied. Please edit %{_webappconfdir}/%{name}.conf to give access to this resource."
+    Order allow,deny
+    Allow from all
 </Directory>
 
 Alias /flags /var/www/icons/flags
 
-<Directory "/var/www/icons/flags">
+<Directory /var/www/icons/flags>
     Options -Indexes MultiViews
     AllowOverride None
     Order allow,deny
@@ -215,10 +209,14 @@ So if you for example want the output in Swedish change this to:
 EOF
 
 %post
+%if %mdkversion < 201010
 %_post_webapp
+%endif
 
 %postun
+%if %mdkversion < 201010
 %_postun_webapp
+%endif
 
 %clean
 rm -rf %{buildroot}
