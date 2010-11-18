@@ -1,7 +1,7 @@
 Summary:	A Webalizer Fork, Full o' Features!
 Name:		awffull
 Version:	3.10.2
-Release:	%mkrel 4
+Release:	%mkrel 5
 License:	GPLv3+
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
@@ -30,76 +30,6 @@ BuildRequires:	libgeoip-devel
 BuildRequires:	zlib-devel
 BuildRequires:	gettext-devel
 BuildRequires:	unzip
-Provides:	webalizer = %{version}-%{release}
-Provides:	webalizer-catalan = %{version}-%{release}
-Provides:	webalizer-chinese = %{version}-%{release}
-Provides:	webalizer-croatian = %{version}-%{release}
-Provides:	webalizer-czech = %{version}-%{release}
-Provides:	webalizer-danish = %{version}-%{release}
-Provides:	webalizer-dutch = %{version}-%{release}
-Provides:	webalizer-estonian = %{version}-%{release}
-Provides:	webalizer-finnish = %{version}-%{release}
-Provides:	webalizer-french = %{version}-%{release}
-Provides:	webalizer-galician = %{version}-%{release}
-Provides:	webalizer-german = %{version}-%{release}
-Provides:	webalizer-greek = %{version}-%{release}
-Provides:	webalizer-hungarian = %{version}-%{release}
-Provides:	webalizer-icelandic = %{version}-%{release}
-Provides:	webalizer-indonesian = %{version}-%{release}
-Provides:	webalizer-italian = %{version}-%{release}
-Provides:	webalizer-japanese = %{version}-%{release}
-Provides:	webalizer-korean = %{version}-%{release}
-Provides:	webalizer-latvian = %{version}-%{release}
-Provides:	webalizer-malay = %{version}-%{release}
-Provides:	webalizer-norwegian = %{version}-%{release}
-Provides:	webalizer-polish = %{version}-%{release}
-Provides:	webalizer-portuguese = %{version}-%{release}
-Provides:	webalizer-portuguese_brazil = %{version}-%{release}
-Provides:	webalizer-romanian = %{version}-%{release}
-Provides:	webalizer-russian = %{version}-%{release}
-Provides:	webalizer-serbian = %{version}-%{release}
-Provides:	webalizer-simplified_chinese = %{version}-%{release}
-Provides:	webalizer-slovak = %{version}-%{release}
-Provides:	webalizer-slovene = %{version}-%{release}
-Provides:	webalizer-spanish = %{version}-%{release}
-Provides:	webalizer-swedish = %{version}-%{release}
-Provides:	webalizer-turkish = %{version}-%{release}
-Provides:	webalizer-ukrainian = %{version}-%{release}
-Obsoletes:	webalizer
-Obsoletes:	webalizer-catalan
-Obsoletes:	webalizer-chinese
-Obsoletes:	webalizer-croatian
-Obsoletes:	webalizer-czech
-Obsoletes:	webalizer-danish
-Obsoletes:	webalizer-dutch
-Obsoletes:	webalizer-estonian
-Obsoletes:	webalizer-finnish
-Obsoletes:	webalizer-french
-Obsoletes:	webalizer-galician
-Obsoletes:	webalizer-german
-Obsoletes:	webalizer-greek
-Obsoletes:	webalizer-hungarian
-Obsoletes:	webalizer-icelandic
-Obsoletes:	webalizer-indonesian
-Obsoletes:	webalizer-italian
-Obsoletes:	webalizer-japanese
-Obsoletes:	webalizer-korean
-Obsoletes:	webalizer-latvian
-Obsoletes:	webalizer-malay
-Obsoletes:	webalizer-norwegian
-Obsoletes:	webalizer-polish
-Obsoletes:	webalizer-portuguese
-Obsoletes:	webalizer-portuguese_brazil
-Obsoletes:	webalizer-romanian
-Obsoletes:	webalizer-russian
-Obsoletes:	webalizer-serbian
-Obsoletes:	webalizer-simplified_chinese
-Obsoletes:	webalizer-slovak
-Obsoletes:	webalizer-slovene
-Obsoletes:	webalizer-spanish
-Obsoletes:	webalizer-swedish
-Obsoletes:	webalizer-turkish
-Obsoletes:	webalizer-ukrainian
 BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
