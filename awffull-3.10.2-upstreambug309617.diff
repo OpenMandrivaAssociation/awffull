@@ -1,0 +1,13 @@
+
+ http://bazaar.launchpad.net/%7Espm/awffull/awffull-trunk/diff/424
+
+--- src/output.c	2008-12-13 03:28:35.000000000 +0100
++++ src/output.c.oden	2009-12-28 13:54:02.468768673 +0100
+@@ -3386,7 +3386,6 @@ write_main_index()
+                  buffer,                        /* graph title       */
+                  index_start, g_settings.settings.history_index + 1);
+ 
+-    ERRVPRINT(0, "Graph Done!\n");
+     /* now do html stuff... */
+     snprintf(index_fname, sizeof(index_fname), "index.%s", g_settings.settings.html_ext);
+ 
