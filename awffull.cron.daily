@@ -1,0 +1,106 @@
+#!/bin/sh
+
+# /etc/cron.daily/awffull: AwfFull daily maintenance script
+# Written by Jose Carlos Medeiros <jose@psabs.com.br> based on 
+# webalizer.cron.daily that was in webalizer package
+# 
+# Modified Fri Jun 22 2007 for Mandriva Linux by oeriksson@mandriva.com
+
+# This script just run awffull agains all .conf files in /etc/awffull directory
+
+AWFFULL="/usr/bin/awffull"
+AWFFULL_CONFDIR="/etc/awffull"
+LOCKFILE="/tmp/awffull.lock"
+
+# store the system locales
+SYSTEM_LANG="$LANG"
+if [ -z ${SYSTEM_LANG} ]; then
+    SYSTEM_LANG="C"
+fi
+
+SYSTEM_LANGUAGE="$LANGUAGE"
+if [ -z ${SYSTEM_LANGUAGE} ]; then
+    SYSTEM_LANGUAGE="C"
+fi
+
+[ -x ${AWFFULL} ] || exit 0
+[ -d ${AWFFULL_CONFDIR} ] || exit 0
+
+# bail out if previous run was unsuccessfull
+if [ -f ${LOCKFILE} ]; then
+    ERROR_MESSAGE="the ${LOCKFILE} file was found indicating an error. Maybe awffull is still running..."
+    echo "$0 : ${ERROR_MESSAGE}"
+    logger -i -p local1.err -t $0 "${ERROR_MESSAGE}"
+    exit 1
+fi
+
+# make the lockfile
+touch ${LOCKFILE}
+
+RETVAL="0"
+for i in ${AWFFULL_CONFDIR}/*.conf; do
+
+    # run agains a rotated or normal logfile
+    LOGFILE=`awk '$1 ~ /^LogFile$/ {print $2}' $i`
+
+    # empty ?
+    [ -s "${LOGFILE}" ] || exit 0
+
+    # readable ?
+    [ -r "${LOGFILE}" ] || exit 1
+
+    # there was a output ?
+    OUTDIR=`awk '$1 ~ /^OutputDir$/ {print $2}' $i`
+
+    #  exists something ?
+    [ "${OUTDIR}" != "" ] || exit 1
+
+    # its a directory ?
+    [ -d ${OUTDIR} ] || exit 1
+
+    # its writable ?
+    [ -w ${OUTDIR} ] || exit 1
+
+    # change the generated html to preferred language
+    AWFFULL_LANG=`awk -F '=' '/^#AWFFULL_LANG=/ {print $2}' $i`
+    if [ -z "${AWFFULL_LANG}" ]; then
+	LANG="${SYSTEM_LANG}"
+    else
+	LANG="${AWFFULL_LANG}"
+    fi
+
+    AWFFULL_LANGUAGE=`awk -F '=' '/^#AWFFULL_LANGUAGE=/ {print $2}' $i`
+    if [ -z "${AWFFULL_LANGUAGE}" ]; then
+	LANGUAGE="${SYSTEM_LANGUAGE}"
+    else
+	LANGUAGE="${AWFFULL_LANGUAGE}"
+    fi
+
+    # Run Really quietly, exit with status code if !0
+    ${AWFFULL} -c ${i} || exit $?
+    RETVAL=$?
+
+    # Non rotated log file
+    NLOGFILE=`awk '$1 ~ /^LogFile$/ {gsub(/\.[0-9]+(\.gz)?/,""); print $2}' $i`
+
+    # check current log, if last log is a rotated logfile
+    if [ "${LOGFILE}" != "${NLOGFILE}" ]; then
+
+        # empty ?
+        [ -s "${NLOGFILE}" ] || exit 0
+
+        # readable ?
+        [ -r "${NLOGFILE}" ] || exit 1
+
+        ${AWFFULL} -c ${i} -Q ${NLOGFILE}
+        RETVAL=$?
+    fi
+done
+
+# delete the lockfile if successful
+if [ $RETVAL -eq 0 ]; then
+    rm -f ${LOCKFILE}
+fi
+
+# exit with awffull's exit code
+exit $RETVAL
