@@ -1,7 +1,7 @@
 Summary:	A Webalizer Fork, Full o' Features!
 Name:		awffull
 Version:	3.10.2
-Release:	%mkrel 6
+Release:	7
 License:	GPLv3+
 Group:		Monitoring
 URL:		http://www.stedee.id.au/awffull
@@ -138,15 +138,7 @@ So if you for example want the output in Swedish change this to:
 
 EOF
 
-%post
-%if %mdkversion < 201010
-%_post_webapp
-%endif
 
-%postun
-%if %mdkversion < 201010
-%_postun_webapp
-%endif
 
 %clean
 rm -rf %{buildroot}
