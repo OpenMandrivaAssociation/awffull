@@ -90,17 +90,15 @@ cat > %{buildroot}%{_webappconfdir}/%{name}.conf <<EOF
 Alias /%{name} %{_localstatedir}/lib/%{name}
 
 <Directory %{_localstatedir}/lib/%{name}>
-    Order allow,deny
-    Allow from all
+    Require all granted
 </Directory>
 
 Alias /flags /var/www/icons/flags
 
 <Directory /var/www/icons/flags>
-    Options -Indexes MultiViews
+    Options -Indexes +MultiViews
     AllowOverride None
-    Order allow,deny
-    Allow from all
+    Require all granted
 </Directory>
 
 EOF
