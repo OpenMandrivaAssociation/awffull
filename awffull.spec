@@ -30,7 +30,6 @@ BuildRequires:	libgeoip-devel
 BuildRequires:	zlib-devel
 BuildRequires:	gettext-devel
 BuildRequires:	unzip
-BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 Webalizer is a great weblog analysis program but hasn't been going anywhere in
@@ -64,8 +63,6 @@ cp %{SOURCE5} .
 %make
 
 %install
-rm -rf %{buildroot}
-
 %makeinstall_std
 
 install -d %{buildroot}%{_localstatedir}/lib/%{name}
@@ -139,10 +136,8 @@ EOF
 
 
 %clean
-rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root)
 %doc COPYING ChangeLog PERFORMANCE_TIPS.txt README* TODO country-codes.txt sample.minimal.conf sample.css
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
 %attr(0644,root,root) %config(noreplace) %{_webappconfdir}/%{name}.conf
