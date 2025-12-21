@@ -16,6 +16,11 @@ Patch0:		awffull-mdv_conf.diff
 Patch1:		awffull-3.10.2-upstreambug309617.diff
 Requires:	apache-base
 Requires:	geoip
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	gd-devel
 BuildRequires:	gettext-devel
 BuildRequires:	jpeg-devel
